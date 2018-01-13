@@ -1,0 +1,17 @@
+version: "2"
+
+services:
+    shakespeer:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      volumes:
+        # App files and config
+        - ./config/uwsgi.ini:/app/uwsgi.ini:ro
+        - ./config/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
+        - ./app/:/app/:rw
+        - ./templates/:/app/templates/:ro
+        # Library
+        - .:/usr/local/lib/python3.6/site-packages/shakespeer:ro
+      ports:
+        - 8080:8080
