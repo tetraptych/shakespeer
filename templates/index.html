@@ -1,4 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-<p>{{ poem }}</p>
+{% for line in poem %}
+    {{ line }}<br>
+{% endfor %}
 {% endblock %}
