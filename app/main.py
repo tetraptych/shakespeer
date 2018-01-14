@@ -1,13 +1,19 @@
 """Bare-bones Flask application."""
 import json
-import random
-import string
 
 import flask
 
 from flask_bootstrap import Bootstrap
 
 from flask_cors import CORS
+
+from shakespeer.poetics import poem
+from shakespeer.poetics import featurizer
+
+TEXT_FILEPATH = 'data/sonnets.txt'
+with open(TEXT_FILEPATH, 'r') as f:
+    RAW_TEXT = f.read()
+SOURCE = featurizer.convert_text_to_dataframe(text=RAW_TEXT)
 
 
 def create_app():
@@ -24,15 +30,16 @@ CORS(app, resources={r'/api/*': {'origins': '*'}})
 @app.route('/')
 def homepage():
     """Render the landing page via index.html."""
-    poem = json.loads(make_poem().get_data())['poem']
-    return flask.render_template('index.html', poem=poem)
+    lines_to_display = json.loads(make_poem().get_data())['poem']
+    return flask.render_template('index.html', poem=lines_to_display)
 
 
 @app.route('/api/make_poem/', methods=['GET'])
 def make_poem():
     """Generate a random poem."""
-    return_string = ''.join(random.choices(string.ascii_lowercase, k=10))
-    return flask.jsonify({'poem': return_string})
+    random_poem = poem.Poem(scheme=poem.ELIZABETHAN_SONNET).fill(source=SOURCE)
+    lines = random_poem.lines
+    return flask.jsonify({'poem': lines})
 
 
 if __name__ == '__main__':
