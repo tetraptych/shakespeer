@@ -1,8 +1,5 @@
 """Configuration management."""
-import os
 import json
-import multiprocessing
-import multiprocessing.dummy
 
 _CONFIG = None
 
@@ -97,52 +94,3 @@ def _load_config(path=None):
         config = Config.default_config()
 
     return config
-
-
-# TODO: Set global and Sentry log level independently.
-CONFIG = {
-    'geocoding': True,
-    'address_database': True,
-    'geocoder': 'oxcoder',
-    'measurer': 'haversine',
-    'measurer_config': {
-        'haversine': {
-            'adequacy_executor_type': multiprocessing.Pool,  # For CPU-bound tasks.
-            'n_adequacy_processors': 8,
-        },
-        'osrm': {
-            'adequacy_executor_type': multiprocessing.dummy.Pool,  # For I/O-bound tasks.
-            'n_adequacy_processors': 255,
-        }
-    },
-    'logging': {
-        'version': 1,
-        'disable_existing_loggers': True,
-        'formatters': {
-            'console': {
-                'format': '[%(asctime)s][%(levelname)s] %(name)s '
-                          '%(filename)s:%(funcName)s:%(lineno)d | %(message)s',
-                'datefmt': '%H:%M:%S',
-            },
-        },
-        'handlers': {
-            'console': {
-                'level': 'DEBUG',
-                'class': 'logging.StreamHandler',
-                'formatter': 'console'
-            },
-            'sentry': {
-                'level': 'INFO',
-                'class': 'raven.handlers.logging.SentryHandler',
-                'dsn': os.environ.get('SENTRY_DSN', None),
-            }
-        },
-        'loggers': {
-            'backend': {
-                'handlers': ['console', 'sentry'],
-                'level': 'DEBUG',
-                'propagate': True,
-            },
-        }
-    }
-}
