@@ -1,6 +1,8 @@
 FROM tiangolo/uwsgi-nginx-flask:python3.6
 
 RUN apt-get -qq update
+RUN apt-get install libdb-dev -y
+RUN export BERKELEYDB_DIR=/usr
 
 # UWSGI and NGINX configs
 COPY ./config/uwsgi.ini /app/uwsgi.ini

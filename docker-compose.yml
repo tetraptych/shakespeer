@@ -11,6 +11,7 @@ services:
         - ./config/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
         - ./app/main.py:/app/main.py:ro
         - ./templates/:/app/templates/:ro
+        - ./data/:/app/data/:rw
         # Library
         - .:/usr/local/lib/python3.6/site-packages/shakespeer:ro
       ports:

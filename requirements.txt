@@ -1,3 +1,9 @@
+ipython==6.2.1
+pandas==0.22.0
+Gutenberg==0.4.2
+pronouncing==0.1.5
+pymongo==3.4.0
+Unidecode==0.4.21
 # Flask and UWSGI
 flask==0.12.2
 Flask-Bootstrap==3.3.7.1
