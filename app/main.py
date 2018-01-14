@@ -7,8 +7,7 @@ from flask_bootstrap import Bootstrap
 
 from flask_cors import CORS
 
-from shakespeer.poetics import poem
-from shakespeer.poetics import featurizer
+from shakespeer.poetics import featurizer, poem
 
 TEXT_FILEPATH = 'data/sonnets.txt'
 with open(TEXT_FILEPATH, 'r') as f:
