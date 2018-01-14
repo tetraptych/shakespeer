@@ -11,5 +11,7 @@ services:
 before_install:
   - docker-compose build shakespeer
 
+install: true
+
 script:
   - make lint
