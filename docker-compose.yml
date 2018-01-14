@@ -14,5 +14,7 @@ services:
         - ./data/:/app/data/:rw
         # Library
         - .:/usr/local/lib/python3.6/site-packages/shakespeer:ro
+        # Linter and tests
+        - ./tests/:/app/tests/:ro
       ports:
         - 8080:8080
