@@ -19,3 +19,4 @@ EXPOSE 8080
 
 COPY requirements.txt ./requirements.txt
 RUN pip install -r ./requirements.txt
+RUN python -c "import nltk; nltk.download('punkt'); nltk.download('averaged_perceptron_tagger');"

@@ -8,6 +8,14 @@ import pronouncing
 import unidecode
 
 
+def convert_file_to_lines(filepath):
+    """Convert file contents to a list of lines."""
+    with open(filepath, 'r') as f:
+        raw_text = f.read()
+    # return nltk.Text(nltk.word_tokenize(raw_text))
+    return raw_text.split()
+
+
 def convert_text_to_dataframe(text):
     """
     Convert raw text to a DataFrame object.
