@@ -45,7 +45,6 @@ class Poem(object):
         self.endings_to_rhymes = {}
         self.available_lines_by_ending = {}
         self.lines = [''] * len(scheme)
-
         self._used_end_words_by_ending = collections.defaultdict(set)
 
     @staticmethod
@@ -76,25 +75,22 @@ class Poem(object):
         self.available_lines_by_ending[ending] = source[source['rhyme'] == rhyme]
         return rhyme
 
-    def _pick_rhymes_for_all_endings(self, source):
-        """Determine rhymes for all endings in the rhyme scheme."""
-        for ending in self.inverse_scheme:
-            self._pick_rhyme_for_ending(ending, source)
-        return self.endings_to_rhymes
-
     def _fill_line(self, index, source):
         """
         Choose a random line matching the chosen rhyme scheme.
 
-        Requires that the rhyme class for the line's ending has been chosen,
-        e.g. by a previous call to `_pick_rhymes_for_all_endings`.
+        Does not require that the rhyme class for the line's ending has been chosen.
+        If called in this scenario, a new rhyme will be chosen.
         """
         ending = self.scheme[index]
-        available_lines = self.available_lines_by_ending[ending][
-            ~self.available_lines_by_ending[ending]['-1 word'].isin(
-                self._used_end_words_by_ending[ending]
-            )
-        ]
+        available_lines = []
+
+        if ending in self.available_lines_by_ending:
+            available_lines = self.available_lines_by_ending[ending][
+                ~self.available_lines_by_ending[ending]['-1 word'].isin(
+                    self._used_end_words_by_ending[ending]
+                )
+            ]
         # If no more lines are available, repick rhymes as needed.
         while(len(available_lines) == 0):
             # Reset previous choices for this ending.
@@ -116,15 +112,10 @@ class Poem(object):
         self._used_end_words_by_ending[ending].add(sample_row['-1 word'])
         return sample_row['content']
 
-    def _fill_lines(self, source):
-        """Fill all lines with text."""
+    def fill(self, source):
+        """Fill all lines with text, choosing rhymes as needed."""
         for index, _ in enumerate(self.lines):
             self._fill_line(index, source)
-
-    def fill(self, source):
-        """Choose rhymes, then fill all lines with text."""
-        self._pick_rhymes_for_all_endings(source)
-        self._fill_lines(source)
         return self
 
     def __str__(self):

@@ -15,7 +15,8 @@ services:
         # Library
         - .:/usr/local/lib/python3.6/site-packages/shakespeer:ro
         # Linter and tests
-        - .flake8:/.flake8:ro
+        - .flake8:/app/.flake8:ro
+        - .coveragerc:/app/.coveragerc:ro
         - ./tests/:/app/tests/:ro
       ports:
         - 8080:8080
