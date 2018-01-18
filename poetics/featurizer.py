@@ -1,10 +1,11 @@
 """Methods to convert raw text into a format usable by Poem objects."""
 import string
-import unidecode
+
+import pandas as pd
 
 import pronouncing
 
-import pandas as pd
+import unidecode
 
 
 def convert_text_to_dataframe(text):

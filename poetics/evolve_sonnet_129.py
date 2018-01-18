@@ -1,10 +1,9 @@
 """Genetic algorithms to evolve Sonnet 129."""
 import random
 
+from deap import algorithms, base, creator, tools
+
 import numpy as np
-
-from deap import base, creator, tools, algorithms
-
 
 TEXT_FILEPATH = 'data/sonnets.txt'
 with open(TEXT_FILEPATH, 'r') as f:
