@@ -1,3 +1,4 @@
+deap==1.2.2
 ipython==6.2.1
 pandas==0.22.0
 Gutenberg==0.4.2
